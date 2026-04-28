@@ -5,32 +5,37 @@ import { createServerClient } from '@supabase/ssr'
 // FR29/FR31: 비인증 접근 차단
 export async function proxy(request: NextRequest) {
   const response = NextResponse.next()
-
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll: () => request.cookies.getAll(),
-        setAll: (cookiesToSet) => {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options),
-          )
-        },
-      },
-    },
-  )
-
-  const { data: { user } } = await supabase.auth.getUser()
-
   const isLoginRoute = request.nextUrl.pathname.startsWith('/login')
 
-  if (user && isLoginRoute) {
-    return NextResponse.redirect(new URL('/', request.url))
-  }
+  try {
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll: () => request.cookies.getAll(),
+          setAll: (cookiesToSet) => {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              response.cookies.set(name, value, options),
+            )
+          },
+        },
+      },
+    )
 
-  if (!user && !isLoginRoute) {
-    return NextResponse.redirect(new URL('/login', request.url))
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (user && isLoginRoute) {
+      return NextResponse.redirect(new URL('/', request.url))
+    }
+
+    if (!user && !isLoginRoute) {
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
+  } catch {
+    if (!isLoginRoute) {
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
   }
 
   return response
