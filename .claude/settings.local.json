@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 *)",
+      "Bash(npx *)",
+      "Bash(pnpm create *)",
+      "Bash(npm install *)",
+      "Bash(pnpm *)",
+      "Bash(cp -r /tmp/voca-init/. /Users/seungbinmin/dev/voca/ --exclude=\".git\")",
+      "Bash(rsync -a --exclude='.git' /tmp/voca-init/ /Users/seungbinmin/dev/voca/)",
+      "Bash(mkdir -p /Users/seungbinmin/dev/voca/src/app/\\\\\\(public\\\\\\)/login)",
+      "Bash(mkdir -p /Users/seungbinmin/dev/voca/src/app/\\\\\\(auth\\\\\\)/quiz)",
+      "Bash(mkdir -p /Users/seungbinmin/dev/voca/src/app/\\\\\\(auth\\\\\\)/dashboard)",
+      "Bash(mkdir -p /Users/seungbinmin/dev/voca/src/app/\\\\\\(auth\\\\\\)/words/\\\\[id\\\\])",
+      "Bash(mkdir -p /Users/seungbinmin/dev/voca/src/app/\\\\\\(auth\\\\\\)/admin)",
+      "Bash(supabase --version)",
+      "Bash(brew install *)",
+      "Bash(supabase init *)",
+      "Bash(docker info *)",
+      "mcp__supabase__list_migrations",
+      "mcp__supabase__list_tables",
+      "mcp__supabase__apply_migration"
+    ]
+  }
+}
